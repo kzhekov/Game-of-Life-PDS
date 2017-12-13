@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from qtdesigner2 import Ui_MplMainWindow
 import matplotlib.pyplot as plt
 import matplotlib.animation as anm
+import threading
 
 ALIVE = 1
 DEAD = 0
@@ -14,15 +15,47 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
     def __init__(self, parent=None):
         super(DesignerMainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.size = 100
+        
+        self.size = 150
         self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.2, 0.8]).reshape(self.size, self.size)
-        timer = QtCore.QTimer(self)
-        timer.timeout.connect(self.update)
-        timer.start(100)
-        #QtCore.QObject.connect(self.mplpushButton, QtCore.SIGNAL("clicked()"), self.start_simulation_button)
-        #QtCore.QObject.connect(self.mplactionOpen, QtCore.SIGNAL('triggered()'), self.select_file)
-        #QtCore.QObject.connect(self.mplactionQuit, QtCore.SIGNAL('triggered()'), QtGui.qApp, QtCore.SLOT("quit()"))
-
+        self.mat = self.mpl.canvas.ax.matshow(self.grid)
+        
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update)
+        
+        self.resume_button_clicked()
+        self.pauseButton.clicked.connect(self.pause_button_clicked)
+        #self.resumeButton.clicked.connect(self.resume_button_clicked)
+        self.stepModeButton.clicked.connect(self.activate_step_by_step)
+        self.nextStepButton.clicked.connect(self.update)
+        self.horizontalSlider.valueChanged.connect(self.slider_moved)
+        
+        
+    def pause_button_clicked(self):
+        self.timer.stop()
+        self.pauseButton.setText("Resume Simulation")
+        self.pauseButton.clicked.connect(self.resume_button_clicked)
+        
+    def resume_button_clicked(self):
+        self.timer.start(self.horizontalSlider.value())
+        self.pauseButton.setText("Pause Simulation")
+        self.pauseButton.clicked.connect(self.pause_button_clicked)
+        
+    def slider_moved(self):
+        self.timer.start(self.horizontalSlider.value())
+        
+    def activate_step_by_step(self):
+        self.pause_button_clicked()
+        self.nextStepButton.setEnabled(True)
+        self.stepModeButton.setText("Disable Step-by-Step")
+        self.stepModeButton.clicked.connect(self.disable_step_by_step)
+    
+    def disable_step_by_step(self):
+        self.resume_button_clicked()
+        self.nextStepButton.setEnabled(False)
+        self.stepModeButton.clicked.connect(self.activate_step_by_step)
+        self.stepModeButton.setText("Enable Step-by-Step")
+        
     def select_file(self):
         file = QtGui.QFileDialog.getOpenFileName()
         if file:
@@ -30,9 +63,11 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
 
     def parse_file(self, filename):
         pass
+    
+    def thread_update(self):
+        threading.Thread(target=self.update).start()
 
     def update(self):
-        mat = self.mpl.canvas.ax.matshow(self.grid)
         newGrid = self.grid.copy()
         for i in range(self.size):
             for j in range(self.size):
@@ -46,12 +81,11 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
                 else:
                     if total == 3:
                         newGrid[i, j] = ALIVE
-        mat.set_data(newGrid)
+        self.mat.set_data(newGrid)
         self.grid = newGrid
         self.mpl.canvas.ax.clear()
-        mat = self.mpl.canvas.ax.matshow(self.grid)
-        self.mpl.canvas.draw()
-
+        self.mat = self.mpl.canvas.ax.matshow(self.grid)
+        self.mpl.canvas.draw_idle()
 
 # create the GUI application
 app = QtWidgets.QApplication(sys.argv)
