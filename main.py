@@ -10,18 +10,18 @@ import threading
 ALIVE = 1
 DEAD = 0
 
-
 class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
     def __init__(self, parent=None):
         super(DesignerMainWindow, self).__init__(parent)
         self.setupUi(self)
         
-        self.size = 150
-        self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.2, 0.8]).reshape(self.size, self.size)
-        self.mat = self.mpl.canvas.ax.matshow(self.grid)
+        self.size = 100
+        self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
+        self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='none', cmap='Greens')
         
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update)
+        self.timer.start(1000)
         
         self.resume_button_clicked()
         self.pauseButton.clicked.connect(self.pause_button_clicked)
@@ -83,9 +83,10 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
                         newGrid[i, j] = ALIVE
         self.mat.set_data(newGrid)
         self.grid = newGrid
-        self.mpl.canvas.ax.clear()
-        self.mat = self.mpl.canvas.ax.matshow(self.grid)
-        self.mpl.canvas.draw_idle()
+        #self.mpl.canvas.ax.clear()
+        #self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='sinc', cmap='tab20c')
+        self.mpl.canvas.draw()
+
 
 # create the GUI application
 app = QtWidgets.QApplication(sys.argv)
