@@ -2,7 +2,7 @@ from __future__ import with_statement
 import numpy as np
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from qtdesigner import Ui_MplMainWindow
+from qtdesigner2 import Ui_MplMainWindow
 import matplotlib.pyplot as plt
 import matplotlib.animation as anm
 

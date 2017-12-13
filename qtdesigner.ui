@@ -42,6 +42,18 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="invertedControls">
+           <bool>false</bool>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
+          </property>
+          <property name="tickInterval">
+           <number>10</number>
+          </property>
          </widget>
         </item>
         <item>
@@ -128,20 +140,16 @@
    <property name="text">
     <string>Open</string>
    </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Pause</string>
-   </property>
-  </action>
-  <action name="actionExit_2">
-   <property name="text">
-    <string>Exit</string>
+   <property name="shortcut">
+    <string>O</string>
    </property>
   </action>
   <action name="mplactionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
    </property>
   </action>
  </widget>
