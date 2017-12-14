@@ -6,16 +6,19 @@ from qtdesigner2 import Ui_MplMainWindow
 import matplotlib.pyplot as plt
 import matplotlib.animation as anm
 import threading
+from lifethread import LifeThread
 
 ALIVE = 1
 DEAD = 0
+
 
 class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
     def __init__(self, parent=None):
         super(DesignerMainWindow, self).__init__(parent)
         self.setupUi(self)
         
-        self.size = 100
+        self.size = 200
+        self.thread_count = 10
         self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
         self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='none', cmap='Greens')
         
@@ -68,23 +71,24 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         threading.Thread(target=self.update).start()
 
     def update(self):
-        newGrid = self.grid.copy()
-        for i in range(self.size):
-            for j in range(self.size):
-                total = (self.grid[i, (j - 1) % self.size] + self.grid[i, (j + 1) % self.size] +
-                         self.grid[(i - 1) % self.size, j] + self.grid[(i + 1) % self.size, j] +
-                         self.grid[(i - 1) % self.size, (j - 1) % self.size] + self.grid[(i - 1) % self.size, (j + 1) % self.size] +
-                         self.grid[(i + 1) % self.size, (j - 1) % self.size] + self.grid[(i + 1) % self.size, (j + 1) % self.size])
-                if self.grid[i, j] == ALIVE:
-                    if (total < 2) or (total > 3):
-                        newGrid[i, j] = DEAD
-                else:
-                    if total == 3:
-                        newGrid[i, j] = ALIVE
+        newGrid = np.empty([self.size,self.size])
+        for i in range(self.thread_count):
+            exec(
+                "thread{} = LifeThread(self.grid[{}:{}], self.size, self.size//self.thread_count)".format(
+                    i, "" if i == 0 else i*(self.size//self.thread_count),
+                    "" if i==4 else (i+1)*(self.size//self.thread_count))
+            )
+            exec("thread{}.start()".format(i))
+        for i in range(self.thread_count):
+            exec(
+                "newGrid[{}:{}] = thread{}.join()".format(
+                    "" if i == 0 else i*(self.size//self.thread_count),
+                    "" if i==4 else (i+1)*(self.size//self.thread_count),i)
+            )
         self.mat.set_data(newGrid)
         self.grid = newGrid
-        #self.mpl.canvas.ax.clear()
-        #self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='sinc', cmap='tab20c')
+        # self.mpl.canvas.ax.clear()
+        # self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='sinc', cmap='tab20c')
         self.mpl.canvas.draw()
 
 
