@@ -1,16 +1,30 @@
 from __future__ import with_statement
 import numpy as np
 import sys
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from gui import Ui_MplMainWindow
-import matplotlib.pyplot as plt
-import matplotlib.animation as anm
 import threading
 from lifethread import LifeThread
 
 ALIVE = 1
 DEAD = 0
 
+class MyListModel(QtCore.QAbstractListModel): 
+    def __init__(self, datain, parent=None, *args): 
+        """ datain: a list where each item is a row
+        """
+        QtCore.QAbstractListModel.__init__(self, parent, *args) 
+        self.listdata = datain
+ 
+    def rowCount(self, parent=QtCore.QModelIndex()): 
+        return len(self.listdata) 
+ 
+    def data(self, index, role): 
+        if index.isValid() and role == QtCore.Qt.DisplayRole:
+            return QtCore.QVariant(self.listdata[index.row()])
+        else: 
+            return QtCore.QVariant()
 
 class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
     def __init__(self, parent=None):
@@ -28,6 +42,8 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         self.timer.start(1000)
         
         self.resume_button_clicked()
+        self.list_configs()
+        
         self.pauseButton.clicked.connect(self.pause_button_clicked)
         #self.resumeButton.clicked.connect(self.resume_button_clicked)
         self.stepModeButton.clicked.connect(self.activate_step_by_step)
@@ -64,6 +80,11 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         self.nextStepButton.setEnabled(False)
         self.stepModeButton.clicked.connect(self.activate_step_by_step)
         self.stepModeButton.setText("Enable Step-by-Step")
+        
+    def list_configs(self):
+        initial_list = os.listdir("../config/")
+        list_model = MyListModel(initial_list, self)
+        self.listView.setModel(list_model)
         
     def select_file(self):
         file = QtGui.QFileDialog.getOpenFileName()
