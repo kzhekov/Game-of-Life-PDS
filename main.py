@@ -17,6 +17,7 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         super(DesignerMainWindow, self).__init__(parent)
         self.setupUi(self)
         
+        self.counter = 1
         self.size = 200
         self.thread_count = 10
         self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
@@ -32,6 +33,9 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         self.stepModeButton.clicked.connect(self.activate_step_by_step)
         self.nextStepButton.clicked.connect(self.update)
         self.horizontalSlider.valueChanged.connect(self.slider_moved)
+        self.fileMod.setText("Random")
+        self.genMod.setText(str(self.counter))
+        self.speedMod.setText(str(self.horizontalSlider.value()))
         
         
     def pause_button_clicked(self):
@@ -46,6 +50,8 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         
     def slider_moved(self):
         self.timer.start(self.horizontalSlider.value())
+        self.speedMod.setText(str(self.horizontalSlider.value()))
+
         
     def activate_step_by_step(self):
         self.pause_button_clicked()
@@ -85,6 +91,8 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
                     "" if i == 0 else i*(self.size//self.thread_count),
                     "" if i==4 else (i+1)*(self.size//self.thread_count),i)
             )
+        self.counter += 1
+        self.genMod.setText(str(self.counter))
         self.mat.set_data(newGrid)
         self.grid = newGrid
         # self.mpl.canvas.ax.clear()

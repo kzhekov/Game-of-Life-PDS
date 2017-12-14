@@ -165,7 +165,7 @@
                 </property>
                 <property name="icon">
                  <iconset theme="play">
-                  <normaloff>.</normaloff>.</iconset>
+                  <normaloff>../../pds422/pds42/GUI</normaloff>../../pds422/pds42/GUI</iconset>
                 </property>
                </widget>
               </item>
@@ -205,7 +205,7 @@
                <number>50</number>
               </property>
               <property name="maximum">
-               <number>500</number>
+               <number>1500</number>
               </property>
               <property name="singleStep">
                <number>100</number>
@@ -233,11 +233,93 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QLabel" name="genLabel">
+                  <property name="text">
+                   <string>Number of generations:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="speedLabel">
+                  <property name="text">
+                   <string>Generation interval (ms):</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_3">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="fileLabel">
+                  <property name="text">
+                   <string>Current configuration:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QLabel" name="genMod">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_4">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="speedMod">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="fileMod">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QListView" name="listView"/>
             </item>
            </layout>
           </item>
-          <item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignTop">
            <widget class="QCommandLinkButton" name="commandLinkButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -253,6 +335,10 @@
             </property>
             <property name="text">
              <string>Use selected configuration</string>
+            </property>
+            <property name="icon">
+             <iconset theme="a">
+              <normaloff>../../pds422/pds42/GUI</normaloff>../../pds422/pds42/GUI</iconset>
             </property>
            </widget>
           </item>
