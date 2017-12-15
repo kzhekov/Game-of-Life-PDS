@@ -6,6 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from gui import Ui_MplMainWindow
 import threading
 from lifethread import LifeThread
+import multiprocessing
 
 ALIVE = 1
 DEAD = 0
@@ -33,7 +34,8 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MplMainWindow):
         
         self.counter = 1
         self.size = 200
-        self.thread_count = 10
+        print("thread count=", multiprocessing.cpu_count())
+        self.thread_count = multiprocessing.cpu_count()
         self.grid = np.random.choice([ALIVE, DEAD], self.size * self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
         self.mat = self.mpl.canvas.ax.matshow(self.grid, interpolation='none', cmap='Greens')
         
