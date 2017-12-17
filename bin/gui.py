@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'qtdesigner2.ui'
+# Form implementation generated from reading ui file 'gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -83,21 +83,21 @@ class Ui_MplMainWindow(object):
         self.nextStepButton.setFont(font)
         self.nextStepButton.setObjectName("nextStepButton")
         self.horizontalLayout_2.addWidget(self.nextStepButton)
-        self.resumeButton = QtWidgets.QPushButton(self.tab_3)
+        self.restartButton = QtWidgets.QPushButton(self.tab_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.resumeButton.sizePolicy().hasHeightForWidth())
-        self.resumeButton.setSizePolicy(sizePolicy)
-        self.resumeButton.setMinimumSize(QtCore.QSize(150, 0))
+        sizePolicy.setHeightForWidth(self.restartButton.sizePolicy().hasHeightForWidth())
+        self.restartButton.setSizePolicy(sizePolicy)
+        self.restartButton.setMinimumSize(QtCore.QSize(150, 0))
         font = QtGui.QFont()
         font.setFamily("Mongolian Baiti")
         font.setPointSize(11)
-        self.resumeButton.setFont(font)
+        self.restartButton.setFont(font)
         icon = QtGui.QIcon.fromTheme("play")
-        self.resumeButton.setIcon(icon)
-        self.resumeButton.setObjectName("resumeButton")
-        self.horizontalLayout_2.addWidget(self.resumeButton)
+        self.restartButton.setIcon(icon)
+        self.restartButton.setObjectName("restartButton")
+        self.horizontalLayout_2.addWidget(self.restartButton)
         self.verticalLayout_5.addLayout(self.horizontalLayout_2)
         self.label = QtWidgets.QLabel(self.tab_3)
         font = QtGui.QFont()
@@ -217,10 +217,10 @@ class Ui_MplMainWindow(object):
     def retranslateUi(self, MplMainWindow):
         _translate = QtCore.QCoreApplication.translate
         MplMainWindow.setWindowTitle(_translate("MplMainWindow", "MainWindow"))
-        self.pauseButton.setText(_translate("MplMainWindow", " Pause Simulation"))
+        self.pauseButton.setText(_translate("MplMainWindow", " Start Simulation"))
         self.stepModeButton.setText(_translate("MplMainWindow", "Enable Step-by-Step"))
         self.nextStepButton.setText(_translate("MplMainWindow", "Next Step"))
-        self.resumeButton.setText(_translate("MplMainWindow", "Save Configuration"))
+        self.restartButton.setText(_translate("MplMainWindow", "Restart simulation"))
         self.label.setText(_translate("MplMainWindow", "Simulation Speed"))
         self.genLabel.setText(_translate("MplMainWindow", "Number of generations:"))
         self.speedLabel.setText(_translate("MplMainWindow", "Generation interval (ms):"))

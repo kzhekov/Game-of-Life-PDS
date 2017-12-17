@@ -83,7 +83,7 @@
                  <cursorShape>ArrowCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string> Pause Simulation</string>
+                 <string> Start Simulation</string>
                 </property>
                </widget>
               </item>
@@ -141,7 +141,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="resumeButton">
+               <widget class="QPushButton" name="restartButton">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -161,7 +161,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Save Configuration</string>
+                 <string>Restart simulation</string>
                 </property>
                 <property name="icon">
                  <iconset theme="play">
